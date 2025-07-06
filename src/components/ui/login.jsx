@@ -15,16 +15,20 @@ import * as Yup from "yup";
 import {useEffect, useState} from "react";
 import useFetch from "@/hooks/use-fetch";
 import {login} from "../../db/apiAuth";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Login() {
     const [errors, setErrors] = useState([]);
     const [formData, setFormData] = useState({email: "", password: ""});
-
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const {loading, data, error, fetchData} = useFetch(login, formData);
-
+    
     useEffect(() => {
-        console.log(data);
-        console.log(error);
+        if(error === null && data) {
+            const longUrl = searchParams.get('create');
+            navigate('/dashboard?' + `${searchParams.get('create') ? "create=" + longUrl : ""}`);
+        }
     }, [data, error]);
 
 
@@ -62,6 +66,7 @@ export default function Login() {
                 <CardTitle>Login</CardTitle>
                 <CardDescription>Login to application</CardDescription>
             </CardHeader>
+            {error?.message}
             <CardContent className="space-y-2">
                 <div className="space-y-1">
                     <Input 
