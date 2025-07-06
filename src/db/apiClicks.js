@@ -2,8 +2,9 @@ import supabase from "./supabaseConnect";
 
 
 
-export async function getClicks(urlId) {
-    const {data, error} = await supabase.from('').select('*').in('url_id', urlId);
+export async function getClicks(urlIds) {
+    console.log(urlIds);
+    const {data, error} = await supabase.from('clicks').select('*').in('url_id', urlIds);
 
     if(error) throw new Error(error);
 

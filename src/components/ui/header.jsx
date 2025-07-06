@@ -25,11 +25,12 @@ const Header = () => {
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
+                        <DropdownMenuLabel className="flex">{user?.email}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Link>
-                                <LinkIcon>My Links</LinkIcon>
+                            <Link className="flex gap-2 justify-center">
+                                <LinkIcon></LinkIcon>
+                                My Links
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-red-400">

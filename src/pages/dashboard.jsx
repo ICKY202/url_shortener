@@ -9,22 +9,26 @@ import {getUrls} from '../db/apiUrls';
 import {getClicks} from '../db/apiClicks';
 import useFetch from "@/hooks/use-fetch";
 import { UrlState } from "@/context";
+import LinkCard from "@/components/ui/link-card";
 
 const Dashboard = () => {
     const [query, setQuery] = useState("");
-    const {data: user} = UrlState();
+    const {user} = UrlState();
     const {data: urls, error, loading, fetchData: fnUrls} = useFetch(getUrls, user?.id);
     const {data: clicks, loading:loadingClicks, fetchData: fnClicks} = useFetch(getClicks, urls?.map((url) => url.id));
-
+    console.log(user.id, urls, clicks);
     useEffect(() => {
         fnUrls();
-    }, [urls?.length]);
+    }, []);
 
     useEffect(() => {
-        if(urls.length) fnClicks();
+        if(urls?.length){
+            console.log("hello");
+            fnClicks();
+        } 
     }, [urls?.length]);
 
-    const filteredUrls = urls?.filter((url) => url.title.toLowserCase().includes(query.toLowerCase()));
+    const filteredUrls = urls?.filter((url) => url?.title?.toLowerCase().includes(query.toLowerCase()));
 
 
     return <div className="flex flex-col gap-4">
@@ -43,7 +47,7 @@ const Dashboard = () => {
                         <CardTitle>Link Clicks</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p>{clicks.length}</p>
+                        <p>{clicks?.length}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -56,8 +60,8 @@ const Dashboard = () => {
                 <FilterIcon className="absolute top-2 right-1 p-1"/>
             </div>
             {error && <Error message={error?.message} />}
-            {(filteredUrls || []).map((url) => {
-                return url.title;
+            {(filteredUrls || []).map((url, id) => {
+                return <LinkCard key={id} url={url} fetchUrls={fnUrls} />
             })}
     </div>
 
