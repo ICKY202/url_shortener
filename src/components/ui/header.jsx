@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel,DropdownMenuItem, DropdownMenuSeparator} from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { LogOut } from "lucide-react";
+import { LinkIcon, LogOut } from "lucide-react";
 import { UrlState } from "@/context";
-const   Header = () => {
+const Header = () => {
     const navigate = useNavigate();
     const {user} = UrlState();
     return <nav className="py-2 flex items-center justify-between">
@@ -27,7 +27,11 @@ const   Header = () => {
                     <DropdownMenuContent>
                         <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>My Links</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link>
+                                <LinkIcon>My Links</LinkIcon>
+                            </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem className="text-red-400">
                             <div className="flex items-center cursor-pointer justify-center">
                                 <LogOut className="mr-2 h-4 w-4" />
