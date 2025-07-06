@@ -1,9 +1,9 @@
 import { Copy, Delete, Download, Trash } from "lucide-react";
 import { Button } from "./button";
 import { Link } from "react-router-dom";
+import {deleteUrl} from "../../db/apiUrls";
 
-
-export default function LinkCard({url}) {
+export default function LinkCard({url, fetchUrls}) {
 
     const downloadImage = () => {
         const imageUrl = url?.qr;
@@ -34,7 +34,7 @@ export default function LinkCard({url}) {
                 <Button variant="ghost" onClick={downloadImage}>
                     <Download/>
                 </Button>
-                <Button variant="ghost">
+                <Button variant="ghost" onClick={() => deleteUrl(url?.id).then(() => fetchUrls())}>
                     <Trash />
                 </Button>
             </div>
