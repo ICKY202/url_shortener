@@ -12,15 +12,24 @@ import {Button} from "@/components/ui/button";
 import { BeatLoader } from "react-spinners";
 import Error from "@/components/ui/error";
 import * as Yup from "yup";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import useFetch from "@/hooks/use-fetch";
+import {login} from "../../db/apiAuth";
 
 export default function Login() {
     const [errors, setErrors] = useState([]);
     const [formData, setFormData] = useState({email: "", password: ""});
 
+    const {loading, data, error, fetchData} = useFetch(login, formData);
+
+    useEffect(() => {
+        console.log(data);
+        console.log(error);
+    }, [data, error]);
+
+
     const handleChange = (e) => {
         const {name, value} = e.target;
-        console.log(name, value);
         setFormData((prev) => {
             return {
                 ...prev,
@@ -37,16 +46,16 @@ export default function Login() {
                 password: Yup.string().min(6, "password must be at least 6 characters").required('password is required')
             })
             await schema.validate(formData, {abortEarly: false});
+            await fetchData();
         }catch (e) {
             const newErrors = {};
             e?.inner?.forEach((err) => {
                 newErrors[err.path] = err.message;
             });
-            console.log(newErrors);
             setErrors(newErrors);
         }
     }
-    const isLoading = true;
+    
     return (
         <Card>
             <CardHeader>
@@ -77,7 +86,7 @@ export default function Login() {
                 </div>
             </CardContent>
             <CardFooter>
-                <Button onClick={handleLogin}>{isLoading ? <BeatLoader size={10} color="#58c7ca" /> : "Login"}</Button>
+                <Button onClick={handleLogin}>{loading ? <BeatLoader size={10} color="#58c7ca" /> : "Login"}</Button>
             </CardFooter>
         </Card>
     );
