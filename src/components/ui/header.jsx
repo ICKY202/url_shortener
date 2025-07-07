@@ -28,7 +28,7 @@ const Header = () => {
                         <DropdownMenuLabel className="flex">{user?.email}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Link className="flex gap-2 justify-center">
+                            <Link to={"/dashboard"} className="flex gap-2 justify-center">
                                 <LinkIcon></LinkIcon>
                                 My Links
                             </Link>

@@ -82,3 +82,19 @@ export const storeClicks = async ({id, original_url}) => {
         console.error("Error recording click:", error);
     }
 }
+
+
+export async function getUrl(url) {
+    const {data, error} = await supabase.from('urls').select("*").eq('id', url?.id).eq('user_id', url.user_id).single();
+
+    if(error) throw new Error(error);
+
+    return data;
+}
+
+// export async function deleteUrl({id}) {
+//     const {data, error} = await supabase.from('urls').delete().eq('id', id);
+//     if(error) throw new Error(error);
+
+//     return data;
+// }   
