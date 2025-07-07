@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FilterIcon } from "lucide-react";
@@ -10,6 +9,7 @@ import {getClicks} from '../db/apiClicks';
 import useFetch from "@/hooks/use-fetch";
 import { UrlState } from "@/context";
 import LinkCard from "@/components/ui/link-card";
+import CreateLink from "@/components/ui/create-link";
 
 const Dashboard = () => {
     const [query, setQuery] = useState("");
@@ -23,14 +23,13 @@ const Dashboard = () => {
 
     useEffect(() => {
         if(urls?.length){
-            console.log("hello");
             fnClicks();
         } 
     }, [urls?.length]);
 
     const filteredUrls = urls?.filter((url) => url?.title?.toLowerCase().includes(query.toLowerCase()));
 
-
+    console.log(filteredUrls)
     return <div className="flex flex-col gap-4">
             {loading || loadingClicks && <BarLoader width={"100%"} color="#397f75"/>}
             <div className="grid grid-cols-2 gap-4">
@@ -53,13 +52,15 @@ const Dashboard = () => {
             </div>
             <div className="flex justify-between">
                 <h1 className="text-4xl font-extrabold">My Links</h1>
-                <Button>Create Link</Button>
+                
+                <CreateLink />
             </div>
             <div className="relative">
                 <Input value={query} type="text" placeholder="Filter the urls" onChange={(e) => setQuery(e.target.value)}/>
                 <FilterIcon className="absolute top-2 right-1 p-1"/>
             </div>
             {error && <Error message={error?.message} />}
+
             {(filteredUrls || []).map((url, id) => {
                 return <LinkCard key={id} url={url} fetchUrls={fnUrls} />
             })}
