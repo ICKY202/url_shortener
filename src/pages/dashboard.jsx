@@ -16,7 +16,7 @@ const Dashboard = () => {
     const {user} = UrlState();
     const {data: urls, error, loading, fetchData: fnUrls} = useFetch(getUrls, user?.id);
     const {data: clicks, loading:loadingClicks, fetchData: fnClicks} = useFetch(getClicks, urls?.map((url) => url.id));
-    console.log(user.id, urls, clicks);
+    // console.log(user.id, urls, clicks);
     useEffect(() => {
         fnUrls();
     }, []);
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
     const filteredUrls = urls?.filter((url) => url?.title?.toLowerCase().includes(query.toLowerCase()));
 
-    console.log(filteredUrls)
+    // console.log(filteredUrls)
     return <div className="flex flex-col gap-4">
             {loading || loadingClicks && <BarLoader width={"100%"} color="#397f75"/>}
             <div className="grid grid-cols-2 gap-4">

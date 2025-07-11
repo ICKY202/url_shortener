@@ -26,6 +26,7 @@ export default function Login() {
     
     useEffect(() => {
         if(error === null && data) {
+            console.log("logged in");
             const longUrl = searchParams.get('create');
             navigate('/dashboard?' + `${searchParams.get('create') ? "create=" + longUrl : ""}`);
         }
